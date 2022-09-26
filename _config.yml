@@ -77,7 +77,7 @@ author:
     #   url: "https://instagram.com/"
 
 header:
-  image: bulletcluster_comp_f2048.jpg
+  image: /assets/images/bulletcluster_comp_f2048.jpg
   image_description: "A photo of the Bullet Cluster: A false color image showing the collision of two galaxies as their stars, dust, and dark matter pass through each other. It is one of the strongest pieces of evidence for the existence of dark matter."
 footer:
   links:
