@@ -3,6 +3,8 @@ permalink: /about/
 title: "About"
 ---
 
-Tempor velit sint sunt ipsum tempor enim ad qui ullamco. Est dolore anim ad velit duis dolore minim sunt aliquip amet commodo labore. Ut eu pariatur aute ea aute excepteur laborum. Esse ea esse excepteur minim mollit qui cillum excepteur ex dolore magna. Labore deserunt fugiat incididunt incididunt sint ea. Consequat dolore aute laboris quis proident quis non et est consectetur ex eiusmod sit culpa.
+I am a particle physicist by training, with a PhD from the University of Washington on searching for neutrinoless double-beta decay with crystal germanium detectors. Since then, I've been working at SLAC National Accelerator Laboratory in Menlo Park, CA on the LUX-ZEPLIN experiment, searching for WIMP dark matter. If none of this means anything to you, have no fear; it wouldn't have meant anything to me 10 years ago either! But hopefully I can explain it to you here.
 
-Cupidatat ea do et in excepteur in. Ad nostrud ut est esse eu duis ea sunt eiusmod. Aliquip tempor veniam sint elit fugiat. Velit incididunt laboris amet incididunt labore dolore irure velit excepteur commodo deserunt laborum. Consectetur eu fugiat veniam veniam Lorem labore magna eiusmod. Ea occaecat reprehenderit pariatur consectetur minim labore ut aliquip.
+I'm currently looking to transition into the climate tech sector. I have extensive experience in high-level big-data analysis gained over the 8 years I've been doing physics research, which will be highly transferrable to any data science role. In the last couple of years, I've had a few research projects involving machine learning as well.
+
+Thanks for reading my website!
