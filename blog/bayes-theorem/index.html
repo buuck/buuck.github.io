@@ -1,0 +1,601 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Basic Bayesian Statistics - Micah Buuck’s Personal Website</title>
+<meta name="description" content="Bayes’s Theorem  I am an ancestral Minnesota Twins fan, having grown up in Minnesota during the glory days of the M&amp;M boys, Johan Santana, and Ron Gardenhire. Back then, the Twins won a lot of games, just…not during the postseason. In fact, the Twins have never had much success in October, making the playoffs only 14 times out of 61 seasons. In that time, they’ve compiled a 25-44 record, which is not good, but given that they’re always playing the best teams in the playoffs, it’s not horrific. Unfortunately, most of those losses have come since the last time they won the World Series in 1991, and shockingly, 16 of them are to a single team: the New York Yankees, who they’ve beaten exactly twice in that time.          This face was bad news for Twins fans. Photo by Christian Petersen // Getty Images   So, let’s say you’re a Twins fan, and you’re excited that your team has made it to the playoffs, and you don’t yet know what team they’ll be facing, but it could be the Yankees. What is the probability that the Twins will win the first game they play? The most straightforward way to predict this is to assume that current trends will hold: they will probably lose (25/(25+44) = 36% chance of winning), but they are much more likely to lose if they are playing the Yankees (2/(2+16) = 11% chance of winning). Bayes’s theorem is a theorem invented by Thomas Bayes (shock) and refined and published by Richard Price that provides a formalism for this kind of conditional thinking. It starts with the idea of a “conditional probability”, or in our example, what is the probability that the Twins are going to win a playoff game given that we know they are playing the Yankees?  [\begin{align} P(W|Y) = \frac{P(W\cap Y)}{P(Y)} \end{align}]  That equation essentially reads “The probability ($P$) that the Twins will win ($W$) if they are playing the Yankees ($Y$) is the same as the fraction of playoff games where the Twins have played and beaten the Yankees ($P(W\cap Y)$)1 divided by the fraction of playoff games the Twins have played against the Yankees ($P(Y)$).”  Let’s say you missed the game and didn’t even know who the Twins were playing, but you hear the next day that the Twins won. You might then ask yourself (if you are a nerd), “Given that I know the Twins won their game last night, what is the probability it was against the Yankees?” In that case the equation would be:  [\begin{align} P(Y|W) = \frac{P(W\cap Y)}{P(W)} \end{align}]  A.k.a.: “The probability that the Twins were playing the Yankees, given that I know they won last night, are the same as the number of times the Twins have played and beaten the Yankees divided by the number of playoff games the Twins have ever won.”  If you’re perceptive you might notice that $P(W\cap Y)$ appears in both equations. We can solve for $P(W\cap Y)$ in one equation and stick it into the other, arriving at Bayes Theorem:  [\begin{align} P(W|Y) = \frac{P(Y|W) P(W)}{P(Y)} \end{align}]  This is a slightly more confusing equation that reads “The probability that the Twins win their playoff game given that it is against the Yankees, is the same as the probability that the Twins played the Yankees given that we know they won that game, multiplied by the fraction of playoff games the Twins have ever won, divided by the fraction of total playoff games the Twins have played against the Yankees.”  This sentence is confusing, but isn’t really necessary to understand in detail, because the point of this equation is to use it to do statistics. Scientists most frequently use this theorem in the context of understanding how the data they get from their experiments change their model/theory of the phenomenon they are investigating.  For example, let’s say you are a physicist who is studying a new particle, and you want to measure its mass. Let’s say you already have some idea of what the mass is: you have a most likely value for the mass, and some idea of how good that estimate is in the first place. You can model this understanding as a normal distribution, centered at your best estimate of the mass, and with a standard deviation that quantifies your understanding of how good the estimate is.          Several examples of normal distributions. Figure author: Wikipedia user Inductiveload.   Now let’s say you go make 15 measurements of the mass of this particle. Bayes Theorem gives you a way to take in those measurements, and use them to “update” your model of the particle’s mass. Maybe the mean of the distribution will change, and hopefully the standard deviation will decrease (i.e. your understanding improves). To do this, Bayes Theorem tells you to compute the “likelihood” of getting the measurements given your current model of the particle mass, and multiply it by the model itself (called the “prior” distrubution). Because the final thing you are getting (the “posterior” distribution) is still a probability distribution, you then have to normalize it to 1 (this is how I understand $P(Y)$ in this example). This procedure for taking a model of something, incorporating new data, and computing the updated model given the data, is extremely powerful.  Conjugate priors  In certain situations, multiplying the prior and likelihood distributions together to get the posterior distribution can, by stroke of fortuitous math, return you a distribution with the same form as the prior distribution. This means that the mathematics of propagating likelihood information through a Bayesian model is very straightforward, and even better, can be repeated without the form of the posterior becoming a total disaster. One of these conjugate prior-posterior relationships occurs when you are trying to estimate the mean of a normal distribution.  We can return to the model from the previous section, where our physicist (you) is trying to measure the mass of a particle. The way physicists typically measure the mass of a particle is to watch it break up into other product particles, and then measure the total energy of all of the products. It turns out that, due to measurement error, and even quantum mechanics, the total energy of these products does not always add up to the exact same number, even if the starting particle is the same every time. This means that if we measure the total energy of the products a bunch of times and plot the distribution, we will get a normal distribution, where the mean represents the mass of the particle, and the standard deviation represents its decay rate, or the inverse of its half-life (i.e. a stable particle like an electron would appear ).  If we take the Bayesian approach, and say that we do not know what the mean is, but rather have a prior for it, choosing that prior distribution to also be a normal distribution will give us a conjugate prior-posterior relationship. Let’s work it out:  The mass of our particle has some value $\mu$, and the width has some value $\Gamma$. The profile of the particle is then  [\begin{align} P(x | \mu, \Gamma) = \frac{1}{\sqrt{2\pi\Gamma^2}}e^\frac{-(x-\mu)^2}{2\Gamma^2} \end{align}]  Our conjugate prior on $\mu$ has, in this case, the same form:  [\begin{align} p_0(\mu) = \frac{1}{\sqrt{2\pi\sigma_0^2}}e^\frac{-(\mu-\mu_0)^2}{2\sigma_0^2} \end{align}]  What we need now is the likelihood, which is really similar to $P\left(x | \mu, \Gamma\right)$ but where you insert the values you have actually measured for $x$, which we’ll now call $\textbf{x} = {x_1, x_2, … x_n}$ for $n$ observations. Since we are computing the likelihood of measuring all of those observations, we will just multiply all of them together:  [\begin{align} L = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi\Gamma^2}}e^\frac{-(x_i-\mu)^2}{2\Gamma^2}  L = \frac{1}{\left(2\pi\Gamma^2\right)^{\frac{n}{2}}} e^\frac{\sum_{i=1}^{n}-(x_i - \mu)^2}{2\Gamma^2}  \end{align}]  After multiplying this by $p_0(\mu)$ and refactoring, we get:  [\begin{align} p_1(\mu) = \frac{1}{\sqrt{2\pi\sigma_1^2}}e^\frac{-(\mu-\mu_1)^2}{2\sigma_1^2} \end{align}]  where $\sigma_1 = \left( \frac{1}{\sigma_0^2} + \frac{n}{\Gamma^2} \right)^{-1}$ and $\mu_1 = \sigma_1 \left( \frac{\mu_0}{\sigma_0^2}+\frac{\sum_{i=1}^n x_i}{\Gamma^2} \right)$. In the limiting case where $n \rightarrow \infty$, this reduces to $\sigma_1 \rightarrow \frac{\Gamma^2}{n} \rightarrow 0$, and $\mu_1 \rightarrow \frac{\Gamma^2}{n}\frac{\sum_{i=1}^n x_i}{\Gamma^2} \rightarrow \bar{\textbf{x}}$, meaning that our estimate of $\mu$ gets arbitrarily precise over time. You can do the exact same thing if you assume that $\mu$ is known but $\Gamma$ is not, in which case the conjugate prior is an inverse-gamma distribution. If you want to place a prior on both $\mu$ and $\Gamma$ simulaneously, you can do this with a normal-inverse-gamma distribution.                 $\cap$ is a math symbol that basically means “and”. &#8617;">
+
+
+  <meta name="author" content="Micah Buuck">
+  
+  <meta property="article:author" content="Micah Buuck">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Micah Buuck's Personal Website">
+<meta property="og:title" content="Basic Bayesian Statistics">
+<meta property="og:url" content="http://localhost:4000/blog/bayes-theorem/">
+
+
+  <meta property="og:description" content="Bayes’s Theorem  I am an ancestral Minnesota Twins fan, having grown up in Minnesota during the glory days of the M&amp;M boys, Johan Santana, and Ron Gardenhire. Back then, the Twins won a lot of games, just…not during the postseason. In fact, the Twins have never had much success in October, making the playoffs only 14 times out of 61 seasons. In that time, they’ve compiled a 25-44 record, which is not good, but given that they’re always playing the best teams in the playoffs, it’s not horrific. Unfortunately, most of those losses have come since the last time they won the World Series in 1991, and shockingly, 16 of them are to a single team: the New York Yankees, who they’ve beaten exactly twice in that time.          This face was bad news for Twins fans. Photo by Christian Petersen // Getty Images   So, let’s say you’re a Twins fan, and you’re excited that your team has made it to the playoffs, and you don’t yet know what team they’ll be facing, but it could be the Yankees. What is the probability that the Twins will win the first game they play? The most straightforward way to predict this is to assume that current trends will hold: they will probably lose (25/(25+44) = 36% chance of winning), but they are much more likely to lose if they are playing the Yankees (2/(2+16) = 11% chance of winning). Bayes’s theorem is a theorem invented by Thomas Bayes (shock) and refined and published by Richard Price that provides a formalism for this kind of conditional thinking. It starts with the idea of a “conditional probability”, or in our example, what is the probability that the Twins are going to win a playoff game given that we know they are playing the Yankees?  [\begin{align} P(W|Y) = \frac{P(W\cap Y)}{P(Y)} \end{align}]  That equation essentially reads “The probability ($P$) that the Twins will win ($W$) if they are playing the Yankees ($Y$) is the same as the fraction of playoff games where the Twins have played and beaten the Yankees ($P(W\cap Y)$)1 divided by the fraction of playoff games the Twins have played against the Yankees ($P(Y)$).”  Let’s say you missed the game and didn’t even know who the Twins were playing, but you hear the next day that the Twins won. You might then ask yourself (if you are a nerd), “Given that I know the Twins won their game last night, what is the probability it was against the Yankees?” In that case the equation would be:  [\begin{align} P(Y|W) = \frac{P(W\cap Y)}{P(W)} \end{align}]  A.k.a.: “The probability that the Twins were playing the Yankees, given that I know they won last night, are the same as the number of times the Twins have played and beaten the Yankees divided by the number of playoff games the Twins have ever won.”  If you’re perceptive you might notice that $P(W\cap Y)$ appears in both equations. We can solve for $P(W\cap Y)$ in one equation and stick it into the other, arriving at Bayes Theorem:  [\begin{align} P(W|Y) = \frac{P(Y|W) P(W)}{P(Y)} \end{align}]  This is a slightly more confusing equation that reads “The probability that the Twins win their playoff game given that it is against the Yankees, is the same as the probability that the Twins played the Yankees given that we know they won that game, multiplied by the fraction of playoff games the Twins have ever won, divided by the fraction of total playoff games the Twins have played against the Yankees.”  This sentence is confusing, but isn’t really necessary to understand in detail, because the point of this equation is to use it to do statistics. Scientists most frequently use this theorem in the context of understanding how the data they get from their experiments change their model/theory of the phenomenon they are investigating.  For example, let’s say you are a physicist who is studying a new particle, and you want to measure its mass. Let’s say you already have some idea of what the mass is: you have a most likely value for the mass, and some idea of how good that estimate is in the first place. You can model this understanding as a normal distribution, centered at your best estimate of the mass, and with a standard deviation that quantifies your understanding of how good the estimate is.          Several examples of normal distributions. Figure author: Wikipedia user Inductiveload.   Now let’s say you go make 15 measurements of the mass of this particle. Bayes Theorem gives you a way to take in those measurements, and use them to “update” your model of the particle’s mass. Maybe the mean of the distribution will change, and hopefully the standard deviation will decrease (i.e. your understanding improves). To do this, Bayes Theorem tells you to compute the “likelihood” of getting the measurements given your current model of the particle mass, and multiply it by the model itself (called the “prior” distrubution). Because the final thing you are getting (the “posterior” distribution) is still a probability distribution, you then have to normalize it to 1 (this is how I understand $P(Y)$ in this example). This procedure for taking a model of something, incorporating new data, and computing the updated model given the data, is extremely powerful.  Conjugate priors  In certain situations, multiplying the prior and likelihood distributions together to get the posterior distribution can, by stroke of fortuitous math, return you a distribution with the same form as the prior distribution. This means that the mathematics of propagating likelihood information through a Bayesian model is very straightforward, and even better, can be repeated without the form of the posterior becoming a total disaster. One of these conjugate prior-posterior relationships occurs when you are trying to estimate the mean of a normal distribution.  We can return to the model from the previous section, where our physicist (you) is trying to measure the mass of a particle. The way physicists typically measure the mass of a particle is to watch it break up into other product particles, and then measure the total energy of all of the products. It turns out that, due to measurement error, and even quantum mechanics, the total energy of these products does not always add up to the exact same number, even if the starting particle is the same every time. This means that if we measure the total energy of the products a bunch of times and plot the distribution, we will get a normal distribution, where the mean represents the mass of the particle, and the standard deviation represents its decay rate, or the inverse of its half-life (i.e. a stable particle like an electron would appear ).  If we take the Bayesian approach, and say that we do not know what the mean is, but rather have a prior for it, choosing that prior distribution to also be a normal distribution will give us a conjugate prior-posterior relationship. Let’s work it out:  The mass of our particle has some value $\mu$, and the width has some value $\Gamma$. The profile of the particle is then  [\begin{align} P(x | \mu, \Gamma) = \frac{1}{\sqrt{2\pi\Gamma^2}}e^\frac{-(x-\mu)^2}{2\Gamma^2} \end{align}]  Our conjugate prior on $\mu$ has, in this case, the same form:  [\begin{align} p_0(\mu) = \frac{1}{\sqrt{2\pi\sigma_0^2}}e^\frac{-(\mu-\mu_0)^2}{2\sigma_0^2} \end{align}]  What we need now is the likelihood, which is really similar to $P\left(x | \mu, \Gamma\right)$ but where you insert the values you have actually measured for $x$, which we’ll now call $\textbf{x} = {x_1, x_2, … x_n}$ for $n$ observations. Since we are computing the likelihood of measuring all of those observations, we will just multiply all of them together:  [\begin{align} L = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi\Gamma^2}}e^\frac{-(x_i-\mu)^2}{2\Gamma^2}  L = \frac{1}{\left(2\pi\Gamma^2\right)^{\frac{n}{2}}} e^\frac{\sum_{i=1}^{n}-(x_i - \mu)^2}{2\Gamma^2}  \end{align}]  After multiplying this by $p_0(\mu)$ and refactoring, we get:  [\begin{align} p_1(\mu) = \frac{1}{\sqrt{2\pi\sigma_1^2}}e^\frac{-(\mu-\mu_1)^2}{2\sigma_1^2} \end{align}]  where $\sigma_1 = \left( \frac{1}{\sigma_0^2} + \frac{n}{\Gamma^2} \right)^{-1}$ and $\mu_1 = \sigma_1 \left( \frac{\mu_0}{\sigma_0^2}+\frac{\sum_{i=1}^n x_i}{\Gamma^2} \right)$. In the limiting case where $n \rightarrow \infty$, this reduces to $\sigma_1 \rightarrow \frac{\Gamma^2}{n} \rightarrow 0$, and $\mu_1 \rightarrow \frac{\Gamma^2}{n}\frac{\sum_{i=1}^n x_i}{\Gamma^2} \rightarrow \bar{\textbf{x}}$, meaning that our estimate of $\mu$ gets arbitrarily precise over time. You can do the exact same thing if you assume that $\mu$ is known but $\Gamma$ is not, in which case the conjugate prior is an inverse-gamma distribution. If you want to place a prior on both $\mu$ and $\Gamma$ simulaneously, you can do this with a normal-inverse-gamma distribution.                 $\cap$ is a math symbol that basically means “and”. &#8617;">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-10-29T00:00:00-07:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/bayes-theorem/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Micah Buuck's Personal Website Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+<!-- for mathjax support -->
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    TeX: { equationNumbers: { autoNumber: "AMS" } },
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+    });
+  </script>
+  <script type="text/javascript" async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+    
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Micah Buuck's Personal Website
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/headshot.jpg" alt="Micah Buuck" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Micah Buuck</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>I use liquid xenon to hunt for dark matter with the LZ experiment. I also have an interest in all things related to data science and decarbonization.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/buucky_wuucky" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/buuck" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Basic Bayesian Statistics">
+    <meta itemprop="description" content="Bayes’s TheoremI am an ancestral Minnesota Twins fan, having grown up in Minnesota during the glory days of the M&amp;M boys, Johan Santana, and Ron Gardenhire. Back then, the Twins won a lot of games, just…not during the postseason. In fact, the Twins have never had much success in October, making the playoffs only 14 times out of 61 seasons. In that time, they’ve compiled a 25-44 record, which is not good, but given that they’re always playing the best teams in the playoffs, it’s not horrific. Unfortunately, most of those losses have come since the last time they won the World Series in 1991, and shockingly, 16 of them are to a single team: the New York Yankees, who they’ve beaten exactly twice in that time.    This face was bad news for Twins fans. Photo by Christian Petersen // Getty ImagesSo, let’s say you’re a Twins fan, and you’re excited that your team has made it to the playoffs, and you don’t yet know what team they’ll be facing, but it could be the Yankees. What is the probability that the Twins will win the first game they play? The most straightforward way to predict this is to assume that current trends will hold: they will probably lose (25/(25+44) = 36% chance of winning), but they are much more likely to lose if they are playing the Yankees (2/(2+16) = 11% chance of winning). Bayes’s theorem is a theorem invented by Thomas Bayes (shock) and refined and published by Richard Price that provides a formalism for this kind of conditional thinking. It starts with the idea of a “conditional probability”, or in our example, what is the probability that the Twins are going to win a playoff game given that we know they are playing the Yankees?[\begin{align}P(W|Y) = \frac{P(W\cap Y)}{P(Y)}\end{align}]That equation essentially reads “The probability ($P$) that the Twins will win ($W$) if they are playing the Yankees ($Y$) is the same as the fraction of playoff games where the Twins have played and beaten the Yankees ($P(W\cap Y)$)1 divided by the fraction of playoff games the Twins have played against the Yankees ($P(Y)$).”Let’s say you missed the game and didn’t even know who the Twins were playing, but you hear the next day that the Twins won. You might then ask yourself (if you are a nerd), “Given that I know the Twins won their game last night, what is the probability it was against the Yankees?” In that case the equation would be:[\begin{align}P(Y|W) = \frac{P(W\cap Y)}{P(W)}\end{align}]A.k.a.: “The probability that the Twins were playing the Yankees, given that I know they won last night, are the same as the number of times the Twins have played and beaten the Yankees divided by the number of playoff games the Twins have ever won.”If you’re perceptive you might notice that $P(W\cap Y)$ appears in both equations. We can solve for $P(W\cap Y)$ in one equation and stick it into the other, arriving at Bayes Theorem:[\begin{align}P(W|Y) = \frac{P(Y|W) P(W)}{P(Y)}\end{align}]This is a slightly more confusing equation that reads “The probability that the Twins win their playoff game given that it is against the Yankees, is the same as the probability that the Twins played the Yankees given that we know they won that game, multiplied by the fraction of playoff games the Twins have ever won, divided by the fraction of total playoff games the Twins have played against the Yankees.”This sentence is confusing, but isn’t really necessary to understand in detail, because the point of this equation is to use it to do statistics. Scientists most frequently use this theorem in the context of understanding how the data they get from their experiments change their model/theory of the phenomenon they are investigating.For example, let’s say you are a physicist who is studying a new particle, and you want to measure its mass. Let’s say you already have some idea of what the mass is: you have a most likely value for the mass, and some idea of how good that estimate is in the first place. You can model this understanding as a normal distribution, centered at your best estimate of the mass, and with a standard deviation that quantifies your understanding of how good the estimate is.    Several examples of normal distributions. Figure author: Wikipedia user Inductiveload.Now let’s say you go make 15 measurements of the mass of this particle. Bayes Theorem gives you a way to take in those measurements, and use them to “update” your model of the particle’s mass. Maybe the mean of the distribution will change, and hopefully the standard deviation will decrease (i.e. your understanding improves). To do this, Bayes Theorem tells you to compute the “likelihood” of getting the measurements given your current model of the particle mass, and multiply it by the model itself (called the “prior” distrubution). Because the final thing you are getting (the “posterior” distribution) is still a probability distribution, you then have to normalize it to 1 (this is how I understand $P(Y)$ in this example). This procedure for taking a model of something, incorporating new data, and computing the updated model given the data, is extremely powerful.Conjugate priorsIn certain situations, multiplying the prior and likelihood distributions together to get the posterior distribution can, by stroke of fortuitous math, return you a distribution with the same form as the prior distribution. This means that the mathematics of propagating likelihood information through a Bayesian model is very straightforward, and even better, can be repeated without the form of the posterior becoming a total disaster. One of these conjugate prior-posterior relationships occurs when you are trying to estimate the mean of a normal distribution.We can return to the model from the previous section, where our physicist (you) is trying to measure the mass of a particle. The way physicists typically measure the mass of a particle is to watch it break up into other product particles, and then measure the total energy of all of the products. It turns out that, due to measurement error, and even quantum mechanics, the total energy of these products does not always add up to the exact same number, even if the starting particle is the same every time. This means that if we measure the total energy of the products a bunch of times and plot the distribution, we will get a normal distribution, where the mean represents the mass of the particle, and the standard deviation represents its decay rate, or the inverse of its half-life (i.e. a stable particle like an electron would appear ).If we take the Bayesian approach, and say that we do not know what the mean is, but rather have a prior for it, choosing that prior distribution to also be a normal distribution will give us a conjugate prior-posterior relationship. Let’s work it out:The mass of our particle has some value $\mu$, and the width has some value $\Gamma$. The profile of the particle is then[\begin{align}P(x | \mu, \Gamma) = \frac{1}{\sqrt{2\pi\Gamma^2}}e^\frac{-(x-\mu)^2}{2\Gamma^2}\end{align}]Our conjugate prior on $\mu$ has, in this case, the same form:[\begin{align}p_0(\mu) = \frac{1}{\sqrt{2\pi\sigma_0^2}}e^\frac{-(\mu-\mu_0)^2}{2\sigma_0^2}\end{align}]What we need now is the likelihood, which is really similar to $P\left(x | \mu, \Gamma\right)$ but where you insert the values you have actually measured for $x$, which we’ll now call $\textbf{x} = {x_1, x_2, … x_n}$ for $n$ observations. Since we are computing the likelihood of measuring all of those observations, we will just multiply all of them together:[\begin{align}L = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi\Gamma^2}}e^\frac{-(x_i-\mu)^2}{2\Gamma^2} L = \frac{1}{\left(2\pi\Gamma^2\right)^{\frac{n}{2}}} e^\frac{\sum_{i=1}^{n}-(x_i - \mu)^2}{2\Gamma^2} \end{align}]After multiplying this by $p_0(\mu)$ and refactoring, we get:[\begin{align}p_1(\mu) = \frac{1}{\sqrt{2\pi\sigma_1^2}}e^\frac{-(\mu-\mu_1)^2}{2\sigma_1^2}\end{align}]where $\sigma_1 = \left( \frac{1}{\sigma_0^2} + \frac{n}{\Gamma^2} \right)^{-1}$ and $\mu_1 = \sigma_1 \left( \frac{\mu_0}{\sigma_0^2}+\frac{\sum_{i=1}^n x_i}{\Gamma^2} \right)$. In the limiting case where $n \rightarrow \infty$, this reduces to $\sigma_1 \rightarrow \frac{\Gamma^2}{n} \rightarrow 0$, and $\mu_1 \rightarrow \frac{\Gamma^2}{n}\frac{\sum_{i=1}^n x_i}{\Gamma^2} \rightarrow \bar{\textbf{x}}$, meaning that our estimate of $\mu$ gets arbitrarily precise over time. You can do the exact same thing if you assume that $\mu$ is known but $\Gamma$ is not, in which case the conjugate prior is an inverse-gamma distribution. If you want to place a prior on both $\mu$ and $\Gamma$ simulaneously, you can do this with a normal-inverse-gamma distribution.            $\cap$ is a math symbol that basically means “and”. &#8617;      ">
+    <meta itemprop="datePublished" content="2022-10-29T00:00:00-07:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Basic Bayesian Statistics
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#bayess-theorem">Bayes’s Theorem</a></li><li><a href="#conjugate-priors">Conjugate priors</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h3 id="bayess-theorem">Bayes’s Theorem</h3>
+
+<p>I am an ancestral Minnesota Twins fan, having grown up in Minnesota during the glory days of the M&amp;M boys, Johan Santana, and Ron Gardenhire. Back then, the Twins won a lot of games, just…not during the postseason. In fact, the Twins have never had much success in October, making the playoffs only 14 times out of 61 seasons. In that time, they’ve compiled a 25-44 record, which is not good, but given that they’re always playing the best teams in the playoffs, it’s not horrific. Unfortunately, most of those losses have come since the last time they won the World Series in 1991, and shockingly, 16 of them are to a single team: the New York Yankees, who they’ve beaten exactly twice in that time.</p>
+
+<figure>
+  
+<img src="/assets/images/relief-pitcher-mariano-rivera-of-the-new-york-yankees-news-photo-102500888-1548242521.jpg" alt="Foo" />
+
+  <figcaption>This face was bad news for Twins fans. Photo by Christian Petersen // Getty Images</figcaption>
+</figure>
+
+<p>So, let’s say you’re a Twins fan, and you’re excited that your team has made it to the playoffs, and you don’t yet know what team they’ll be facing, but it could be the Yankees. What is the probability that the Twins will win the first game they play? The most straightforward way to predict this is to assume that current trends will hold: they will probably lose (25/(25+44) = 36% chance of winning), but they are much more likely to lose if they are playing the Yankees (2/(2+16) = 11% chance of winning). Bayes’s theorem is a theorem invented by Thomas Bayes (shock) and refined and published by Richard Price that provides a formalism for this kind of conditional thinking. It starts with the idea of a “conditional probability”, or in our example, what is the probability that the Twins are going to win a playoff game given that we know they are playing the Yankees?</p>
+
+\[\begin{align*}
+P(W|Y) = \frac{P(W\cap Y)}{P(Y)}
+\end{align*}\]
+
+<p>That equation essentially reads “The probability ($P$) that the Twins will win ($W$) if they are playing the Yankees ($Y$) is the same as the fraction of playoff games where the Twins have played and beaten the Yankees ($P(W\cap Y)$)<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> divided by the fraction of playoff games the Twins have played against the Yankees ($P(Y)$).”</p>
+
+<p>Let’s say you missed the game and didn’t even know who the Twins were playing, but you hear the next day that the Twins won. You might then ask yourself (if you are a nerd), “Given that I know the Twins won their game last night, what is the probability it was against the Yankees?” In that case the equation would be:</p>
+
+\[\begin{align*}
+P(Y|W) = \frac{P(W\cap Y)}{P(W)}
+\end{align*}\]
+
+<p>A.k.a.: “The probability that the Twins were playing the Yankees, given that I know they won last night, are the same as the number of times the Twins have played and beaten the Yankees divided by the number of playoff games the Twins have ever won.”</p>
+
+<p>If you’re perceptive you might notice that $P(W\cap Y)$ appears in both equations. We can solve for $P(W\cap Y)$ in one equation and stick it into the other, arriving at Bayes Theorem:</p>
+
+\[\begin{align*}
+P(W|Y) = \frac{P(Y|W) P(W)}{P(Y)}
+\end{align*}\]
+
+<p>This is a slightly more confusing equation that reads “The probability that the Twins win their playoff game given that it is against the Yankees, is the same as the probability that the Twins played the Yankees given that we know they won that game, multiplied by the fraction of playoff games the Twins have ever won, divided by the fraction of total playoff games the Twins have played against the Yankees.”</p>
+
+<p>This sentence is confusing, but isn’t really necessary to understand in detail, because the point of this equation is to use it to do statistics. Scientists most frequently use this theorem in the context of understanding how the data they get from their experiments change their model/theory of the phenomenon they are investigating.</p>
+
+<p>For example, let’s say you are a physicist who is studying a new particle, and you want to measure its mass. Let’s say you already have some idea of what the mass is: you have a most likely value for the mass, and some idea of how good that estimate is in the first place. You can model this understanding as a normal distribution, centered at your best estimate of the mass, and with a standard deviation that quantifies your understanding of how good the estimate is.</p>
+
+<figure>
+  
+<img src="/assets/images/normal-distribution.png" alt="Foo" />
+
+  <figcaption>Several examples of normal distributions. Figure author: Wikipedia user Inductiveload.</figcaption>
+</figure>
+
+<p>Now let’s say you go make 15 measurements of the mass of this particle. Bayes Theorem gives you a way to take in those measurements, and use them to “update” your model of the particle’s mass. Maybe the mean of the distribution will change, and hopefully the standard deviation will decrease (i.e. your understanding improves). To do this, Bayes Theorem tells you to compute the “likelihood” of getting the measurements given your current model of the particle mass, and multiply it by the model itself (called the “prior” distrubution). Because the final thing you are getting (the “posterior” distribution) is still a probability distribution, you then have to normalize it to 1 (this is how I understand $P(Y)$ in this example). This procedure for taking a model of something, incorporating new data, and computing the updated model given the data, is extremely powerful.</p>
+
+<h3 id="conjugate-priors">Conjugate priors</h3>
+
+<p>In certain situations, multiplying the prior and likelihood distributions together to get the posterior distribution can, by stroke of fortuitous math, return you a distribution with the same form as the prior distribution. This means that the mathematics of propagating likelihood information through a Bayesian model is very straightforward, and even better, can be repeated without the form of the posterior becoming a total disaster. One of these conjugate prior-posterior relationships occurs when you are trying to estimate the mean of a normal distribution.</p>
+
+<p>We can return to the model from the previous section, where our physicist (you) is trying to measure the mass of a particle. The way physicists typically measure the mass of a particle is to watch it break up into other product particles, and then measure the total energy of all of the products. It turns out that, due to measurement error, and even quantum mechanics, the total energy of these products does not always add up to the exact same number, even if the starting particle is the same every time. This means that if we measure the total energy of the products a bunch of times and plot the distribution, we will get a normal distribution, where the mean represents the mass of the particle, and the standard deviation represents its decay rate, or the inverse of its half-life (i.e. a stable particle like an electron would appear ).</p>
+
+<p>If we take the Bayesian approach, and say that we do not <em>know</em> what the mean is, but rather have a prior for it, choosing that prior distribution to also be a normal distribution will give us a conjugate prior-posterior relationship. Let’s work it out:</p>
+
+<p>The mass of our particle has some value $\mu$, and the width has some value $\Gamma$. The profile of the particle is then</p>
+
+\[\begin{align*}
+P(x | \mu, \Gamma) = \frac{1}{\sqrt{2\pi\Gamma^2}}e^\frac{-(x-\mu)^2}{2\Gamma^2}
+\end{align*}\]
+
+<p>Our conjugate prior on $\mu$ has, in this case, the same form:</p>
+
+\[\begin{align*}
+p_0(\mu) = \frac{1}{\sqrt{2\pi\sigma_0^2}}e^\frac{-(\mu-\mu_0)^2}{2\sigma_0^2}
+\end{align*}\]
+
+<p>What we need now is the likelihood, which is really similar to $P\left(x | \mu, \Gamma\right)$ but where you insert the values you have actually measured for $x$, which we’ll now call $\textbf{x} = {x_1, x_2, … x_n}$ for $n$ observations. Since we are computing the likelihood of measuring all of those observations, we will just multiply all of them together:</p>
+
+\[\begin{align*}
+L = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi\Gamma^2}}e^\frac{-(x_i-\mu)^2}{2\Gamma^2} \\
+L = \frac{1}{\left(2\pi\Gamma^2\right)^{\frac{n}{2}}} e^\frac{\sum_{i=1}^{n}-(x_i - \mu)^2}{2\Gamma^2} \\
+\end{align*}\]
+
+<p>After multiplying this by $p_0(\mu)$ and refactoring, we get:</p>
+
+\[\begin{align*}
+p_1(\mu) = \frac{1}{\sqrt{2\pi\sigma_1^2}}e^\frac{-(\mu-\mu_1)^2}{2\sigma_1^2}
+\end{align*}\]
+
+<p>where $\sigma_1 = \left( \frac{1}{\sigma_0^2} + \frac{n}{\Gamma^2} \right)^{-1}$ and $\mu_1 = \sigma_1 \left( \frac{\mu_0}{\sigma_0^2}+\frac{\sum_{i=1}^n x_i}{\Gamma^2} \right)$. In the limiting case where $n \rightarrow \infty$, this reduces to $\sigma_1 \rightarrow \frac{\Gamma^2}{n} \rightarrow 0$, and $\mu_1 \rightarrow \frac{\Gamma^2}{n}\frac{\sum_{i=1}^n x_i}{\Gamma^2} \rightarrow \bar{\textbf{x}}$, meaning that our estimate of $\mu$ gets arbitrarily precise over time. You can do the exact same thing if you assume that $\mu$ is known but $\Gamma$ is not, in which case the conjugate prior is an inverse-gamma distribution. If you want to place a prior on both $\mu$ and $\Gamma$ simulaneously, you can do this with a normal-inverse-gamma distribution.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>$\cap$ is a math symbol that basically means “and”. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#machine-learning" class="page__taxonomy-item" rel="tag">Machine Learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#statistics" class="page__taxonomy-item" rel="tag">Statistics</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">Blog</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-10-29T00:00:00-07:00">October 29, 2022</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Basic+Bayesian+Statistics%20http%3A%2F%2Flocalhost%3A4000%2Fblog%2Fbayes-theorem%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fblog%2Fbayes-theorem%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fblog%2Fbayes-theorem%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="#" class="pagination--pager disabled">Previous</a>
+    
+    
+      <a href="/blog/predictive-uncertainty-gammatpc/" class="pagination--pager" title="Predictive Uncertainty with Neural Networks for the GammaTPC Telescope Concept
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/predictive-uncertainty-gammatpc/" rel="permalink">Predictive Uncertainty with Neural Networks for the GammaTPC Telescope Concept
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          13 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Uncertainty in Physics
+
+Experimental physicists spend most of their research time doing 2 things: building their experiment, and trying to figure out how wro...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/buucky_wuucky" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/buuck" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Micah Buuck's Personal Website. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+
+
+  </body>
+</html>

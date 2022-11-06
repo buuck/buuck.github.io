@@ -278,6 +278,10 @@ li ul, li ol { margin-top: 0.5em; }
 figure { display: -webkit-box; display: flex; -webkit-box-pack: justify; justify-content: space-between; -webkit-box-align: start; align-items: flex-start; flex-wrap: wrap; margin: 2em 0; }
 figure img, figure iframe, figure .fluid-width-video-wrapper { margin-bottom: 1em; }
 figure img { width: 100%; border-radius: 4px; -webkit-transition: all 0.2s ease-in-out; transition: all 0.2s ease-in-out; }
+figure.smaller > img { display: block; width: 51%; height: auto; margin-left: auto; margin-right: auto; }
+figure.smaller figcaption { width: 100%; text-align: left; }
+figure.three-quarter > img { display: block; width: 75%; height: auto; margin-left: auto; margin-right: auto; }
+figure.three-quarter figcaption { width: 100%; text-align: left; }
 figure > a { display: block; }
 @media (min-width: 37.5em) { figure.half > a, figure.half > img { width: calc(50% - 0.5em); } }
 figure.half figcaption { width: 100%; }
@@ -1129,9 +1133,10 @@ body { display: -webkit-box; display: -ms-flexbox; display: flex; min-height: 10
 .feature__wrapper .archive__item-title { margin-bottom: 0; }
 
 .feature__item { position: relative; margin-bottom: 2em; font-size: 1.125em; }
-@media (min-width: 37.5em) { .feature__item { float: left; margin-bottom: 0; width: 49.1525423729%; }
-  .feature__item:nth-child(2n + 1) { clear: both; margin-left: 0; }
-  .feature__item:nth-child(2n + 2) { clear: none; margin-left: 1.6949152542%; }
+@media (min-width: 37.5em) { .feature__item { float: left; margin-bottom: 0; width: 32.2033898305%; }
+  .feature__item:nth-child(3n + 1) { clear: both; margin-left: 0; }
+  .feature__item:nth-child(3n + 2) { clear: none; margin-left: 1.6949152542%; }
+  .feature__item:nth-child(3n + 3) { clear: none; margin-left: 1.6949152542%; }
   .feature__item .feature__item-teaser { max-height: 200px; overflow: hidden; } }
 .feature__item .archive__item-body { padding-left: 1.6949152542%; padding-right: 1.6949152542%; }
 .feature__item a.btn::before { content: ''; position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
