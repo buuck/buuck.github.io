@@ -10,4 +10,10 @@ var store = [{
         "tags": ["Physics","Machine Learning"],
         "url": "/blog/predictive-uncertainty-gammatpc/",
         "teaser": null
+      },{
+        "title": "Climate Impacts of Scientific Computing in Particle Physics",
+        "excerpt":"Snowmass 2021 From 2020 to 2022, the US particle physics community collectively worked through a community planning process, which is called Snowmass for historical reasons. This consisted of many small groups working together to write white papers on various topics, such as what kind of experiments should be built in...","categories": ["Blog"],
+        "tags": ["Physics","Climate Change","Computing"],
+        "url": "/blog/computing-and-climate/",
+        "teaser": null
       }]
