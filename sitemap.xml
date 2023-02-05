@@ -10,7 +10,11 @@
 </url>
 <url>
 <loc>http://localhost:4000/blog/computing-and-climate/</loc>
-<lastmod>2022-12-04T00:00:00-08:00</lastmod>
+<lastmod>2022-12-06T00:00:00-08:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/CAISO-Analysis/</loc>
+<lastmod>2023-02-05T00:00:00-08:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/example_posts/2010-01-07-post-modified/</loc>
@@ -63,6 +67,6 @@
 </url>
 <url>
 <loc>http://localhost:4000/resume2022.pdf</loc>
-<lastmod>2022-11-06T17:23:06-08:00</lastmod>
+<lastmod>2022-12-06T10:11:55-08:00</lastmod>
 </url>
 </urlset>

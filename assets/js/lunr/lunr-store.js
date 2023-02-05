@@ -16,4 +16,10 @@ var store = [{
         "tags": ["Physics","Climate Change","Computing"],
         "url": "/blog/computing-and-climate/",
         "teaser": null
+      },{
+        "title": "Caiso Analysis",
+        "excerpt":"Analysis of 2021-2022 CAISO Power Source Data This data comes from Kaggle, and presumably ultimately from CAISO. The units are not labeled, so I am guessing a bit here on what is what. I’m going to do some exploratory analysis, and see if we can do any meaningful forecasting. Read...","categories": [],
+        "tags": [],
+        "url": "/CAISO-Analysis/",
+        "teaser": null
       }]
