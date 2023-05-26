@@ -17,6 +17,10 @@
 <lastmod>2023-02-05T00:00:00-08:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/world-electricity-and-air-pollution/</loc>
+<lastmod>2023-05-25T00:00:00-07:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/example_posts/2010-01-07-post-modified/</loc>
 <lastmod>2016-03-09T13:20:02-08:00</lastmod>
 </url>
@@ -64,6 +68,10 @@
 <url>
 <loc>http://localhost:4000/assets/images/5_cm_most_err_serif_xz.pdf</loc>
 <lastmod>2022-11-05T15:51:34-07:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/buuck_latex_resume_2023.pdf</loc>
+<lastmod>2023-05-16T16:27:17-07:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/resume2022.pdf</loc>

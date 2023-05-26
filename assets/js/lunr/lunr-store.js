@@ -22,4 +22,10 @@ var store = [{
         "tags": [],
         "url": "/CAISO-Analysis/",
         "teaser": null
+      },{
+        "title": "World Electricity And Air Pollution",
+        "excerpt":"Connecting world electricity production with air pollution It is reasonable to assume that particularly dirty energy production, e.g. coal, will be associated with higher death rates from air pollution. This notebook investigates the relationship between different kinds of electricity production and deaths from air pollution using data from Our World...","categories": [],
+        "tags": [],
+        "url": "/world-electricity-and-air-pollution/",
+        "teaser": null
       }]
