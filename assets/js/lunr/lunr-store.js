@@ -17,15 +17,15 @@ var store = [{
         "url": "/blog/computing-and-climate/",
         "teaser": null
       },{
-        "title": "Caiso Analysis",
-        "excerpt":"Analysis of 2021-2022 CAISO Power Source Data This data comes from Kaggle, and presumably ultimately from CAISO. The units are not labeled, so I am guessing a bit here on what is what. I’m going to do some exploratory analysis, and see if we can do any meaningful forecasting. Read...","categories": [],
-        "tags": [],
-        "url": "/CAISO-Analysis/",
+        "title": "Analysis of 2021-2022 CAISO Power Source Data",
+        "excerpt":"This data comes from Kaggle, and presumably ultimately from CAISO. The units are not labeled, so I am guessing a bit here on what is what. I’m going to do some exploratory analysis, and see if we can do any meaningful forecasting. Read and preprocess data Make sure that the...","categories": ["Blog"],
+        "tags": ["Energy","Statistics","Climate"],
+        "url": "/blog/CAISO-Analysis/",
         "teaser": null
       },{
-        "title": "World Electricity And Air Pollution",
-        "excerpt":"Connecting world electricity production with air pollution It is reasonable to assume that particularly dirty energy production, e.g. coal, will be associated with higher death rates from air pollution. This notebook investigates the relationship between different kinds of electricity production and deaths from air pollution using data from Our World...","categories": [],
-        "tags": [],
-        "url": "/world-electricity-and-air-pollution/",
+        "title": "Connecting world electricity production with air pollution",
+        "excerpt":"It is reasonable to assume that particularly dirty energy production, e.g. coal, will be associated with higher death rates from air pollution. This notebook investigates the relationship between different kinds of electricity production and deaths from air pollution using data from Our World in Data. I find that the relationship...","categories": ["Blog"],
+        "tags": ["Energy","Statistics","Health","Climate"],
+        "url": "/blog/world-electricity-and-air-pollution/",
         "teaser": null
       }]
